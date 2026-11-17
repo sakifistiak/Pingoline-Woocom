@@ -2,7 +2,7 @@
 Requires at least: 6.0
 Requires PHP: 7.4
 WC requires at least: 7.0
-Stable tag: 1.2.0
+Stable tag: 1.3.0
 License: GPLv2 or later
 
 Automatic phone confirmation for WooCommerce orders through PingoLine.
@@ -14,8 +14,8 @@ Unanswered calls are retried. The final result updates the order status and adds
 
 == Installation ==
 
-1. Plugins > Add New > Upload Plugin, choose xpbx-order-confirm.zip, activate.
-2. WooCommerce > XPBX Order Call:
+1. Plugins > Add New > Upload Plugin, choose pingoline-order-confirm.zip, activate.
+2. WooCommerce > PingoLine Order Call:
    * API URL and API token: from the PingoLine portal, Developer page.
    * Copy the webhook URL shown on this page into the PingoLine portal (Developer > Webhook URL),
      then paste the webhook signing secret from the portal back here.
