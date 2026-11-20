@@ -4,7 +4,6 @@
  * Description:       Automatic phone call confirmations for WooCommerce orders in Bangladesh: press 1 to confirm, 2 to cancel. Powered by PingoLine Cloud PBX.
  * Version:           1.3.0
  * Requires at least: 6.0
- * Tested up to:      7.1
  * Requires PHP:      7.4
  * WC requires at least: 7.0
  * WC tested up to:   9.4
