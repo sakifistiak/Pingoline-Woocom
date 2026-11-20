@@ -4,6 +4,7 @@
  * Description:       Automatic phone call confirmations for WooCommerce orders in Bangladesh: press 1 to confirm, 2 to cancel. Powered by PingoLine Cloud PBX.
  * Version:           1.3.0
  * Requires at least: 6.0
+ * Tested up to:      7.1
  * Requires PHP:      7.4
  * WC requires at least: 7.0
  * WC tested up to:   9.4
@@ -11,7 +12,7 @@
  * Author URI:        https://pingoline.com
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       pingoline-order-confirm
+ * Text Domain:       pingoline-order-confirmation-call
  */
 
 if (! defined('ABSPATH')) {
@@ -114,8 +115,8 @@ final class PingoLine_Order_Confirm
     {
         add_submenu_page(
             'woocommerce',
-            esc_html__('PingoLine Order Call', 'pingoline-order-confirm'),
-            esc_html__('PingoLine Order Call', 'pingoline-order-confirm'),
+            esc_html__('PingoLine Order Call', 'pingoline-order-confirmation-call'),
+            esc_html__('PingoLine Order Call', 'pingoline-order-confirmation-call'),
             'manage_woocommerce',
             'pingoline-order-confirm',
             [$this, 'settings_page']
@@ -124,7 +125,7 @@ final class PingoLine_Order_Confirm
 
     public function settings_link($links)
     {
-        array_unshift($links, '<a href="'.esc_url(admin_url('admin.php?page=pingoline-order-confirm')).'">'.esc_html__('Settings').'</a>');
+        array_unshift($links, '<a href="'.esc_url(admin_url('admin.php?page=pingoline-order-confirm')).'">'.esc_html__('Settings', 'pingoline-order-confirmation-call').'</a>');
 
         return $links;
     }
@@ -150,7 +151,7 @@ final class PingoLine_Order_Confirm
     public function settings_page()
     {
         if (! current_user_can('manage_woocommerce')) {
-            wp_die(esc_html__('You do not have sufficient permissions to access this page.', 'pingoline-order-confirm'));
+            wp_die(esc_html__('You do not have sufficient permissions to access this page.', 'pingoline-order-confirmation-call'));
         }
 
         $o = self::options();
@@ -163,32 +164,38 @@ final class PingoLine_Order_Confirm
             $ping = $this->api('GET', '/ping');
         } ?>
         <div class="wrap">
-            <h1><?php esc_html_e('PingoLine Order Confirmation Call', 'pingoline-order-confirm'); ?></h1>
-            <p><?php echo wp_kses_post(__('New orders get an automatic call: <strong>press 1 to confirm, 2 to cancel</strong>. The result updates the order and adds an order note.', 'pingoline-order-confirm')); ?></p>
+            <h1><?php esc_html_e('PingoLine Order Confirmation Call', 'pingoline-order-confirmation-call'); ?></h1>
+            <p><?php echo wp_kses_post(__('New orders get an automatic call: <strong>press 1 to confirm, 2 to cancel</strong>. The result updates the order and adds an order note.', 'pingoline-order-confirmation-call')); ?></p>
             <?php $preset = self::preset(); ?>
             <?php if (! empty($preset['api_token'])) : ?>
-                <div class="notice notice-success inline"><p><?php echo wp_kses_post(sprintf(__('Ready to use: this plugin is already connected%s. Use <em>Test connection</em> below to check.', 'pingoline-order-confirm'), empty($preset['account']) ? '' : ' for <strong>'.esc_html($preset['account']).'</strong>')); ?></p></div>
+                <div class="notice notice-success inline"><p><?php 
+                    /* translators: %s: connected account name */
+                    echo wp_kses_post(sprintf(__('Ready to use: this plugin is already connected%s. Use <em>Test connection</em> below to check.', 'pingoline-order-confirmation-call'), empty($preset['account']) ? '' : ' for <strong>'.esc_html($preset['account']).'</strong>')); 
+                ?></p></div>
             <?php endif; ?>
 
             <form method="post" action="options.php">
                 <?php settings_fields('pingoline_order_confirm'); ?>
                 <table class="form-table" role="presentation">
-                    <tr><th scope="row"><label for="pingoline_api_url"><?php esc_html_e('API URL', 'pingoline-order-confirm'); ?></label></th>
+                    <tr><th scope="row"><label for="pingoline_api_url"><?php esc_html_e('API URL', 'pingoline-order-confirmation-call'); ?></label></th>
                         <td><input id="pingoline_api_url" class="regular-text" <?php echo empty($preset['api_token']) ? '' : 'readonly'; ?> name="<?php echo esc_attr(self::OPTION); ?>[api_url]" value="<?php echo esc_attr($o['api_url']); ?>" placeholder="https://pingoline.com/api/v1">
-                        <p class="description"><?php esc_html_e('From the PingoLine portal: Developer → API base URL.', 'pingoline-order-confirm'); ?></p></td></tr>
-                    <tr><th scope="row"><label for="pingoline_api_token"><?php esc_html_e('API token', 'pingoline-order-confirm'); ?></label></th>
+                        <p class="description"><?php esc_html_e('From the PingoLine portal: Developer → API base URL.', 'pingoline-order-confirmation-call'); ?></p></td></tr>
+                    <tr><th scope="row"><label for="pingoline_api_token"><?php esc_html_e('API token', 'pingoline-order-confirmation-call'); ?></label></th>
                         <td><input id="pingoline_api_token" class="regular-text" <?php echo empty($preset['api_token']) ? '' : 'readonly'; ?> type="password" name="<?php echo esc_attr(self::OPTION); ?>[api_token]" value="<?php echo esc_attr($o['api_token']); ?>" autocomplete="off"></td></tr>
-                    <tr><th scope="row"><label for="pingoline_secret"><?php esc_html_e('Webhook signing secret', 'pingoline-order-confirm'); ?></label></th>
+                    <tr><th scope="row"><label for="pingoline_secret"><?php esc_html_e('Webhook signing secret', 'pingoline-order-confirmation-call'); ?></label></th>
                         <td><input id="pingoline_secret" class="regular-text" <?php echo empty($preset['api_token']) ? '' : 'readonly'; ?> type="password" name="<?php echo esc_attr(self::OPTION); ?>[webhook_secret]" value="<?php echo esc_attr($o['webhook_secret']); ?>" autocomplete="off">
-                        <p class="description"><?php printf(esc_html__('In the PingoLine portal open Developer, Connected sites, and add this site (domain %s). Its webhook URL is %s. Paste the site\'s API key above and its signing secret here.', 'pingoline-order-confirm'), '<code>'.esc_html(home_url()).'</code>', '<code>'.esc_html($webhook).'</code>'); ?></p></td></tr>
-                    <tr><th scope="row"><label for="pingoline_caller"><?php esc_html_e('Caller number', 'pingoline-order-confirm'); ?></label></th>
+                        <p class="description"><?php 
+                            /* translators: 1: site domain, 2: webhook URL */
+                            printf(esc_html__('In the PingoLine portal open Developer, Connected sites, and add this site (domain %1$s). Its webhook URL is %2$s. Paste the site\'s API key above and its signing secret here.', 'pingoline-order-confirmation-call'), '<code>'.esc_html(home_url()).'</code>', '<code>'.esc_html($webhook).'</code>'); 
+                        ?></p></td></tr>
+                    <tr><th scope="row"><label for="pingoline_caller"><?php esc_html_e('Caller number', 'pingoline-order-confirmation-call'); ?></label></th>
                         <td><input id="pingoline_caller" class="regular-text" name="<?php echo esc_attr(self::OPTION); ?>[caller_number]" value="<?php echo esc_attr($o['caller_number']); ?>" placeholder="Leave empty for your default IP number"></td></tr>
-                    <tr><th scope="row"><?php esc_html_e('Call new orders', 'pingoline-order-confirm'); ?></th>
-                        <td><label><input type="checkbox" name="<?php echo esc_attr(self::OPTION); ?>[enabled]" value="1" <?php checked($o['enabled'], 'yes'); ?>> <?php esc_html_e('Enabled', 'pingoline-order-confirm'); ?></label><br>
-                        <label><input type="checkbox" name="<?php echo esc_attr(self::OPTION); ?>[only_cod]" value="1" <?php checked($o['only_cod'], 'yes'); ?>> <?php esc_html_e('Only Cash on Delivery orders', 'pingoline-order-confirm'); ?></label></td></tr>
-                    <tr><th scope="row"><label for="pingoline_ok"><?php esc_html_e('When confirmed (1)', 'pingoline-order-confirm'); ?></label></th>
+                    <tr><th scope="row"><?php esc_html_e('Call new orders', 'pingoline-order-confirmation-call'); ?></th>
+                        <td><label><input type="checkbox" name="<?php echo esc_attr(self::OPTION); ?>[enabled]" value="1" <?php checked($o['enabled'], 'yes'); ?>> <?php esc_html_e('Enabled', 'pingoline-order-confirmation-call'); ?></label><br>
+                        <label><input type="checkbox" name="<?php echo esc_attr(self::OPTION); ?>[only_cod]" value="1" <?php checked($o['only_cod'], 'yes'); ?>> <?php esc_html_e('Only Cash on Delivery orders', 'pingoline-order-confirmation-call'); ?></label></td></tr>
+                    <tr><th scope="row"><label for="pingoline_ok"><?php esc_html_e('When confirmed (1)', 'pingoline-order-confirmation-call'); ?></label></th>
                         <td><select id="pingoline_ok" name="<?php echo esc_attr(self::OPTION); ?>[confirmed_status]"><?php $this->status_options($statuses, $o['confirmed_status']); ?></select></td></tr>
-                    <tr><th scope="row"><label for="pingoline_no"><?php esc_html_e('When cancelled (2)', 'pingoline-order-confirm'); ?></label></th>
+                    <tr><th scope="row"><label for="pingoline_no"><?php esc_html_e('When cancelled (2)', 'pingoline-order-confirmation-call'); ?></label></th>
                         <td><select id="pingoline_no" name="<?php echo esc_attr(self::OPTION); ?>[cancelled_status]"><?php $this->status_options($statuses, $o['cancelled_status']); ?></select></td></tr>
                 </table>
                 <?php submit_button(); ?>
@@ -201,12 +208,18 @@ final class PingoLine_Order_Confirm
                 '_wpnonce'
             );
             ?>
-            <p><a class="button" href="<?php echo esc_url($test_ping_url); ?>"><?php esc_html_e('Test connection', 'pingoline-order-confirm'); ?></a></p>
+            <p><a class="button" href="<?php echo esc_url($test_ping_url); ?>"><?php esc_html_e('Test connection', 'pingoline-order-confirmation-call'); ?></a></p>
             <?php if ($ping !== null) : ?>
                 <?php if (is_wp_error($ping) || $ping['code'] !== 200) : ?>
-                    <div class="notice notice-error inline"><p><?php printf(esc_html__('Connection failed: %s', 'pingoline-order-confirm'), esc_html(is_wp_error($ping) ? $ping->get_error_message() : ($ping['body']['error']['message'] ?? 'HTTP '.$ping['code']))); ?></p></div>
+                    <div class="notice notice-error inline"><p><?php 
+                        /* translators: %s: connection error message */
+                        printf(esc_html__('Connection failed: %s', 'pingoline-order-confirmation-call'), esc_html(is_wp_error($ping) ? $ping->get_error_message() : ($ping['body']['error']['message'] ?? 'HTTP '.$ping['code']))); 
+                    ?></p></div>
                 <?php else : ?>
-                    <div class="notice notice-success inline"><p><?php printf(esc_html__('Connected to %s.', 'pingoline-order-confirm'), '<strong>'.esc_html($ping['body']['data']['account']).'</strong>'); ?></p></div>
+                    <div class="notice notice-success inline"><p><?php 
+                        /* translators: %s: connected account name */
+                        printf(esc_html__('Connected to %s.', 'pingoline-order-confirmation-call'), '<strong>'.esc_html($ping['body']['data']['account']).'</strong>'); 
+                    ?></p></div>
                 <?php endif; ?>
             <?php endif; ?>
         </div>
