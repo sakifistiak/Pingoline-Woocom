@@ -1,7 +1,6 @@
 <?php
 /**
  * Plugin Name:       PingoLine Order Confirmation Call
- * Plugin URI:        https://pingoline.com
  * Description:       Automatic phone call confirmations for WooCommerce orders in Bangladesh: press 1 to confirm, 2 to cancel. Powered by PingoLine Cloud PBX.
  * Version:           1.3.0
  * Requires at least: 6.0
