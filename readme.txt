@@ -1,5 +1,5 @@
 === PingoLine Order Confirmation Call ===
-Contributors: pingoline
+Contributors: pingolinebd, pingoline
 Tags: woocommerce, order confirmation, ivr, call verification, bangladesh
 Requires at least: 6.0
 Tested up to: 6.7
