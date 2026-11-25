@@ -6,7 +6,7 @@ Tested up to: 7.1
 Requires PHP: 7.4
 WC requires at least: 7.0
 WC tested up to: 9.4
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,12 @@ Yes. You can assign any official 096 series IP phone number allocated to your Pi
 2. Real-time call confirmation note added to WooCommerce order details.
 
 == Changelog ==
+
+= 1.3.2 =
+* Added comprehensive PingoLine admin dashboard with call overview and quick stats.
+* Added interactive Call Logs table with order search, status filter, and pagination.
+* Added multi-tab navigation: Order confirmation, Call logs, and Settings.
+* Enhanced settings page with clean UI cards, token visibility toggle, and 1-click webhook copy.
 
 = 1.3.1 =
 * Added dedicated top-level WordPress admin menu for PingoLine.
