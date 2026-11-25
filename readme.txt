@@ -6,7 +6,7 @@ Tested up to: 7.1
 Requires PHP: 7.4
 WC requires at least: 7.0
 WC tested up to: 9.4
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,7 +48,7 @@ This data is processed strictly for telephone order verification and is never so
 
 1. Upload the `pingoline-order-confirm` folder to your `/wp-content/plugins/` directory, or install via **Plugins > Add New** in your WordPress admin dashboard.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Go to **WooCommerce > PingoLine Order Call**.
+3. Go to **PingoLine** in your WordPress admin menu.
 4. Enter your **API URL** (`https://pingoline.com/api/v1`) and **API Token** from your PingoLine Portal (Developer page).
 5. Copy the generated Webhook URL displayed on the settings screen and add it to your PingoLine Developer portal.
 6. Click **Test connection** to verify communication with PingoLine servers.
@@ -73,6 +73,10 @@ Yes. You can assign any official 096 series IP phone number allocated to your Pi
 2. Real-time call confirmation note added to WooCommerce order details.
 
 == Changelog ==
+
+= 1.3.1 =
+* Added dedicated top-level WordPress admin menu for PingoLine.
+* Added PingoLine brand icon to the admin navigation menu.
 
 = 1.3.0 =
 * Security hardening: Added nonce verification and capability checks for connection testing.

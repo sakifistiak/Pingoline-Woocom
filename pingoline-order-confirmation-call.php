@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       PingoLine Order Confirmation Call
  * Description:       Automatic phone call confirmations for WooCommerce orders in Bangladesh: press 1 to confirm, 2 to cancel. Powered by PingoLine Cloud PBX.
- * Version:           1.3.0
+ * Version:           1.3.1
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * WC requires at least: 7.0
@@ -34,6 +34,7 @@ final class PingoLine_Order_Confirm
         $self = new self();
 
         add_action('admin_menu', [$self, 'menu']);
+        add_action('admin_head', [$self, 'menu_icon_style']);
         add_action('admin_init', [$self, 'register_settings']);
         add_filter('plugin_action_links_'.plugin_basename(__FILE__), [$self, 'settings_link']);
 
@@ -112,14 +113,20 @@ final class PingoLine_Order_Confirm
 
     public function menu()
     {
-        add_submenu_page(
-            'woocommerce',
+        add_menu_page(
             esc_html__('PingoLine Order Call', 'pingoline-order-confirmation-call'),
-            esc_html__('PingoLine Order Call', 'pingoline-order-confirmation-call'),
+            esc_html__('PingoLine', 'pingoline-order-confirmation-call'),
             'manage_woocommerce',
             'pingoline-order-confirm',
-            [$this, 'settings_page']
+            [$this, 'settings_page'],
+            plugins_url('assets/pingoline-icon.png', __FILE__),
+            56
         );
+    }
+
+    public function menu_icon_style()
+    {
+        echo '<style>#toplevel_page_pingoline-order-confirm .wp-menu-image img{width:22px;height:22px;padding:6px 0;border-radius:50%;opacity:1;}</style>';
     }
 
     public function settings_link($links)
